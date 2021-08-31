@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'auth/LoginScreen.dart';
 import 'auth/RegisterationScreen.dart';
 import 'home/HomeScreen.dart';
-
+import 'package:chat/addRoom/AddRoom.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -30,8 +30,9 @@ class MyApp extends StatelessWidget {
             LoginScreen.ROUTE_NAME: (context) => LoginScreen(),
             HomeScreen.ROUTE_NAME: (context) => HomeScreen(),
             ChatRoomScreen.ROUTE_NAME: (context) => ChatRoomScreen(),
+            AddRoom.ROUTE_NAME: (context)=>AddRoom(),
           },
-          initialRoute: LoginScreen.ROUTE_NAME,
+          initialRoute: AddRoom.ROUTE_NAME,
          // home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
         );
       },
