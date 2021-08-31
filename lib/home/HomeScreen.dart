@@ -1,6 +1,6 @@
 import 'package:chat/addRoom/AddRoom.dart';
-import 'package:chat/auth/LoginScreen.dart';
 import 'package:chat/chatRoom/ChatRoomScreen.dart';
+import 'package:chat/chatRoom/JoinRoom.dart';
 import 'package:chat/model/Room.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +10,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
        children :[
          Center(
            child: RaisedButton(
              onPressed: () {
                Navigator.pushNamed(
                  context,
-                 ChatRoomScreen.ROUTE_NAME,
-                 arguments: ChatRoomArgs(
+                 JoinRoom.ROUTE_NAME,
+                 arguments: RoomArgs(
                    Room(
                      id: 'QznCh04O2nDwRI6dCznZ',
                      description: 'fun',

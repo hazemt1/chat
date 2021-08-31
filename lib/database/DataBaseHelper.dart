@@ -19,10 +19,18 @@ CollectionReference<Room> getRoomsCollectionWithConverter(){
       , toFirestore: (room,_) => room.toJson());
 }
 
-CollectionReference<Message> getMessageCollectionWithConveter(String roomId){
+CollectionReference<Message> getMessageCollectionWithConverter(String roomId){
   final roomCollection =getRoomsCollectionWithConverter();
 
   return roomCollection.doc(roomId).collection(Message.COLLECTION_NAME)
       .withConverter(fromFirestore: (snapshot,_)=>Message.fromJson(snapshot.data()!),
       toFirestore: (message,_)=>message.toJson());
+}
+
+CollectionReference<Room> getUserCollectionWithConverter(String userId){
+  final userCollection =getUsersCollectionWithConverter();
+
+  return userCollection.doc(userId).collection(Room.COLLECTION_NAME)
+      .withConverter(fromFirestore: (snapshot,_)=>Room.fromJson(snapshot.data()!),
+      toFirestore: (room,_)=>room.toJson());
 }

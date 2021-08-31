@@ -21,19 +21,22 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   String textFieldMessage = '';
 
   late CollectionReference<Message> messageRef;
+  late CollectionReference<Room> roomRef;
 
   late AppConfigProvider provider;
 
   late TextEditingController _controller;
 
+
   @override
   Widget build(BuildContext context) {
-    final arg = ModalRoute.of(context)?.settings.arguments as ChatRoomArgs;
+    final arg = ModalRoute.of(context)?.settings.arguments as RoomArgs;
     Room room = arg.room!;
-    messageRef = getMessageCollectionWithConveter(room.id);
+    messageRef = getMessageCollectionWithConverter(room.id);
     final Stream<QuerySnapshot<Message>> messageStream =
         messageRef.orderBy('time').snapshots();
     provider = Provider.of<AppConfigProvider>(context);
+    roomRef = getUserCollectionWithConverter(provider.currentUser!.id);
     _controller = TextEditingController(text: textFieldMessage);
     return Stack(
       children: [
@@ -55,7 +58,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 5.0),
                   child: PopupMenuButton<String>(
-                    onSelected: (selected) {},
+                    onSelected: (selected) {
+                      if (selected == 'Leave Room') {
+                        final roomDoc = roomRef.doc(room.id);
+                        roomDoc.delete();
+                        Navigator.pop(context);
+                      }
+                    },
                     offset: Offset(0,50),
                     shape: const TooltipShape(),
                     itemBuilder: (BuildContext context) {
@@ -191,7 +200,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 }
 
-class ChatRoomArgs {
+class RoomArgs {
   Room? room;
-  ChatRoomArgs(this.room);
+  RoomArgs(this.room);
 }
