@@ -24,6 +24,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   String email = '';
 
   String password = '';
+  bool isPasswordHidden = false;
   late AppProvider provider;
 
   @override
@@ -100,10 +101,18 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           height: 10,
                         ),
                         TextFormField(
+                          obscureText: isPasswordHidden ? true : false,
                           onChanged: (textValue) {
                             password = textValue;
                           },
                           decoration: InputDecoration(
+                              suffixIcon:IconButton(
+                                icon: Icon(isPasswordHidden? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                                onPressed: (){
+                                  isPasswordHidden = !isPasswordHidden;
+                                  setState(() {});
+                                },
+                              ),
                               labelText: 'Password',
                               floatingLabelBehavior: FloatingLabelBehavior.auto),
                           validator: (value) {
