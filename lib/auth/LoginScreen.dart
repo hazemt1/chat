@@ -1,13 +1,10 @@
+import 'package:chat/AppConfigProvider.dart';
 import 'package:chat/auth/RegisterationScreen.dart';
 import 'package:chat/database/DataBaseHelper.dart';
 import 'package:chat/home/HomeScreen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/model/User.dart' as MyUser ;
 import 'package:provider/provider.dart';
-import 'package:chat/Appprovider.dart';
-
 
 class LoginScreen extends StatefulWidget {
   static const String ROUTE_NAME = 'login';
@@ -23,11 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String password = '';
   bool isPasswordHidden = false;
-  late AppProvider provider;
+  late AppConfigProvider provider;
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<AppProvider>(context);
+    provider = Provider.of<AppConfigProvider>(context);
     return Stack(
       children: [
         Container(
@@ -64,7 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ), //24 bold poppins
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Form(
                     key: _loginFormKey,
                     child: Column(
@@ -75,7 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           decoration: InputDecoration(
                               labelText: 'Email',
-                              floatingLabelBehavior: FloatingLabelBehavior.auto),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto),
                           // The validator receives the text that the user has entered.
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -84,23 +84,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                         ),
-
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         TextFormField(
                           obscureText: isPasswordHidden ? true : false,
                           onChanged: (textValue) {
                             password = textValue;
                           },
                           decoration: InputDecoration(
-                              suffixIcon:IconButton(
-                                icon: Icon(isPasswordHidden? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                                onPressed: (){
+                              suffixIcon: IconButton(
+                                icon: Icon(isPasswordHidden
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined),
+                                onPressed: () {
                                   isPasswordHidden = !isPasswordHidden;
                                   setState(() {});
                                 },
                               ),
                               labelText: 'Password',
-                              floatingLabelBehavior: FloatingLabelBehavior.auto),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter password';
@@ -110,7 +114,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Container(
                           alignment: Alignment.centerLeft,
                           child: TextButton(
@@ -124,26 +130,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  isLoading?
-                  Center(child: CircularProgressIndicator()) : Container(
-                    height: 50,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Login();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20,right: 20),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Login',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-                                Icon(Icons.arrow_forward),
-                              ], ),
-                        )),
-                  ),
-                  TextButton(child: Text('Or Create My Account!'),
-                    onPressed: (){
-                      Navigator.pushNamed(context, RegisterationScreen.ROUTE_NAME);
+                  isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : Container(
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Login();
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Login',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Icon(Icons.arrow_forward),
+                                  ],
+                                ),
+                              )),
+                        ),
+                  TextButton(
+                    child: Text('Or Create My Account!'),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, RegisterationScreen.ROUTE_NAME);
                     },
                   )
                 ],
@@ -154,28 +171,32 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-  bool isLoading = false ;
+
+  bool isLoading = false;
   void Login() {
     if (_loginFormKey.currentState?.validate() == true) {
       signIn();
     }
   }
-  void signIn()async{
+
+  void signIn() async {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if(userCredential.user == null){
-        showMessageError('invalid Credentials no user exist''with this email and password');
-      }
-      else{
-        final userRef = getUsersCollectionWithConverter().doc(userCredential.user!.uid)
+      if (userCredential.user == null) {
+        showMessageError(
+            'invalid Credentials no user exist' 'with this email and password');
+      } else {
+        getUsersCollectionWithConverter()
+            .doc(userCredential.user!.uid)
             .get()
-            .then((retrievedUser){
+            .then((retrievedUser) {
           provider.updateUser(retrievedUser.data());
           Navigator.pushReplacementNamed(context, HomeScreen.ROUTE_NAME);
         });

@@ -1,5 +1,4 @@
 import 'package:chat/AppConfigProvider.dart';
-import 'package:chat/Temp.dart';
 import 'package:chat/chatRoom/ChatRoomScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,6 @@ class MyApp extends StatelessWidget {
             LoginScreen.ROUTE_NAME: (context) => LoginScreen(),
             HomeScreen.ROUTE_NAME: (context) => HomeScreen(),
             ChatRoomScreen.ROUTE_NAME: (context) => ChatRoomScreen(),
-            Temp.ROUTE_NAME: (context) => Temp()
           },
           initialRoute: LoginScreen.ROUTE_NAME,
          // home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
