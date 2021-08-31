@@ -20,14 +20,18 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => AppProvider(),
       builder: (context, widget) {
+        final provider  = Provider.of<AppProvider>(context);
+        final isLoggedInUser = provider.checkLoggedInUser();
         return MaterialApp(
           debugShowCheckedModeBanner: false,
+
           routes: {
             RegisterationScreen.ROUTE_NAME: (context) => RegisterationScreen(),
             LoginScreen.ROUTE_NAME: (context) => LoginScreen(),
             HomeScreen.ROUTE_NAME: (context) => HomeScreen(),
           },
           initialRoute: LoginScreen.ROUTE_NAME,
+         // home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
         );
       },
     );

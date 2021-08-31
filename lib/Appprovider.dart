@@ -21,7 +21,6 @@ class AppProvider extends ChangeNotifier{
           currentUser=retUser.data();
         }
       });
-
     }
     return firebaseUser!=null;
   }
