@@ -1,13 +1,14 @@
-import 'package:chat/database/DataBaseHelper.dart';
-import 'package:chat/model/User.dart' as MyUser;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:chat/model/User.dart' as MyUser;
 
+import 'database/DataBaseHelper.dart';
 class MyThemeData{
   static const primaryColor = Color.fromARGB(255, 53, 152, 219);
   static const white = Color.fromARGB(255, 255, 255, 255);
 }
-class AppProvider extends ChangeNotifier{
+
+class AppConfigProvider extends ChangeNotifier {
   MyUser.User? currentUser;
 
   bool checkLoggedInUser(){

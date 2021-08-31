@@ -1,5 +1,4 @@
-import 'package:chat/Appprovider.dart';
-import 'package:chat/auth/LoginScreen.dart';
+import 'package:chat/AppConfigProvider.dart';
 import 'package:chat/database/DataBaseHelper.dart';
 import 'package:chat/home/HomeScreen.dart';
 import 'package:chat/model/User.dart' as MyUser;
@@ -25,11 +24,11 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
 
   String password = '';
   bool isPasswordHidden = false;
-  late AppProvider provider;
+  late AppConfigProvider provider;
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<AppProvider>(context);
+    provider = Provider.of<AppConfigProvider>(context);
     return Stack(
       children: [
         Container(
