@@ -1,6 +1,7 @@
 import 'package:chat/AppConfigProvider.dart';
 import 'package:chat/addRoom/AddRoom.dart';
 import 'package:chat/chatRoom/ChatRoomScreen.dart';
+import 'package:chat/chatRoom/JoinRoom.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +32,9 @@ class MyApp extends StatelessWidget {
             HomeScreen.ROUTE_NAME: (context) => HomeScreen(),
             ChatRoomScreen.ROUTE_NAME: (context) => ChatRoomScreen(),
             AddRoom.ROUTE_NAME: (context) => AddRoom(),
+            JoinRoom.ROUTE_NAME: (context) => JoinRoom(),
           },
-          initialRoute: LoginScreen.ROUTE_NAME,
+          initialRoute: HomeScreen.ROUTE_NAME,
          home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
           //HomeScreen.ROUTE_NAME
         );
@@ -40,3 +42,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

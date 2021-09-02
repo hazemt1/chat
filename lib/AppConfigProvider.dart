@@ -10,6 +10,8 @@ class MyThemeData{
 
 class AppConfigProvider extends ChangeNotifier {
   MyUser.User? currentUser;
+  bool _folded=true;
+  String _searchText = '';
 
   bool checkLoggedInUser(){
     final firebaseUser = FirebaseAuth.instance.currentUser;
@@ -25,6 +27,12 @@ class AppConfigProvider extends ChangeNotifier {
     }
     return firebaseUser!=null;
   }
+  void setSearchText(String searchText) {
+    _searchText = searchText;
+    notifyListeners();
+  }
+  bool getFolded()=>_folded;
+  toggleFold(){_folded=!_folded;}
   void updateUser(MyUser.User? user){
     currentUser  = user;
     notifyListeners();

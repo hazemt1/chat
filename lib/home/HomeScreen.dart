@@ -1,15 +1,17 @@
+import 'package:chat/AppConfigProvider.dart';
 import 'package:chat/addRoom/AddRoom.dart';
-import 'package:chat/chatRoom/ChatRoomScreen.dart';
 import 'package:chat/database/DataBaseHelper.dart';
 import 'package:chat/model/Room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'RoomWidget.dart';
 
 class HomeScreen extends StatelessWidget {
  static const ROUTE_NAME='home';
  late CollectionReference<Room> roomsCollectionReference;
+ late AppConfigProvider provider;
 
 
  HomeScreen(){
@@ -18,6 +20,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<AppConfigProvider>(context);
     return Stack(
       children: [
         Container(
@@ -31,15 +34,39 @@ class HomeScreen extends StatelessWidget {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              title: Text('Chat App',
+              leading: provider.getFolded()
+                  ? Builder(
+                builder: (context) => IconButton(
+                  icon: Icon(Icons.menu_rounded),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
+              )
+                  : Container(),
+              toolbarHeight: 70,
+              title: provider.getFolded()?Text(
+                'Chat App',
                 style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                   color: Colors.white,
                 ),
+              ): null,
+              titleTextStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontFamily: 'Exo',
               ),
               centerTitle: true,
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(70),
+                  bottomRight: Radius.circular(70),
+                ),
+              ),
+              actions: [
+                Container(), //Needs to also go to search Bar
+              ],
             ),
             backgroundColor: Colors.transparent,
             floatingActionButton: FloatingActionButton(
@@ -81,30 +108,18 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-
 /*
-return Scaffold(
 appBar: AppBar(
-
-),
-body: Center(
-child: RaisedButton(
-onPressed: () {
-Navigator.pushNamed(
-context,
-ChatRoomScreen.ROUTE_NAME,
-arguments: ChatRoomArgs(
-Room(
-id: 'QznCh04O2nDwRI6dCznZ',
-description: 'fun',
-name: 'ss',
-category: 'sports',
-),
-),
-);
-},
-child: Text('Press me'),
-),
-),
-);
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              title: Text('Chat App',
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                ),
+              ),
+              centerTitle: true,
+            ),
  */
