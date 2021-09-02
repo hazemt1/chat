@@ -35,7 +35,7 @@ class Message {
     };
   }
   String getDateFormatted(){
-    var date = DateFormat("HH:mm a");
+    var date = DateFormat("h:mm a");
     return date.format(DateTime.fromMillisecondsSinceEpoch(time));
   }
 }

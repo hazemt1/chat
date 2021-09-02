@@ -32,9 +32,9 @@ class MyApp extends StatelessWidget {
             HomeScreen.ROUTE_NAME: (context) => HomeScreen(),
             ChatRoomScreen.ROUTE_NAME: (context) => ChatRoomScreen(),
             AddRoom.ROUTE_NAME: (context) => AddRoom(),
-            JoinRoom.ROUTE_NAME: (context) => JoinRoom(),
+            JoinRoom.ROUTE_NAME: (context) => JoinRoom()
           },
-          initialRoute: HomeScreen.ROUTE_NAME,
+          // initialRoute: HomeScreen.ROUTE_NAME,
          home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
           //HomeScreen.ROUTE_NAME
         );

@@ -34,7 +34,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     Room room = arg.room!;
     messageRef = getMessageCollectionWithConverter(room.id);
     final Stream<QuerySnapshot<Message>> messageStream =
-        messageRef.orderBy('time').snapshots();
+        messageRef.orderBy('time',descending: true).snapshots();
     provider = Provider.of<AppConfigProvider>(context);
     roomRef = getUserCollectionWithConverter(provider.currentUser!.id);
     _controller = TextEditingController(text: textFieldMessage);
@@ -108,6 +108,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           return Text(snapshot.error.toString());
                         else if (snapshot.hasData) {
                           return ListView.builder(
+                            reverse: true,
                             itemBuilder: (context, index) {
                               return DisplayedMessage(
                                   snapshot.data?.docs[index].data());
@@ -125,6 +126,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     children: [
                       Expanded(
                         child: TextField(
+                          onSubmitted: (_) => sendMessage(),
                           controller: _controller,
                           onChanged: (text) {
                             textFieldMessage = text;

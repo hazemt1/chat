@@ -27,10 +27,15 @@ class AppConfigProvider extends ChangeNotifier {
     }
     return firebaseUser!=null;
   }
+  void signOut(){
+    currentUser=null;
+    FirebaseAuth.instance.signOut();
+  }
   void setSearchText(String searchText) {
     _searchText = searchText;
     notifyListeners();
   }
+  String get searchText => _searchText;
   bool getFolded()=>_folded;
   toggleFold(){_folded=!_folded;}
   void updateUser(MyUser.User? user){
