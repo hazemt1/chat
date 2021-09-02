@@ -23,8 +23,18 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   String email = '';
 
   String password = '';
-  bool isPasswordHidden = false;
+  bool isPasswordHidden = true;
   late AppConfigProvider provider;
+
+  FocusNode emailFocus =FocusNode();
+  FocusNode passwordFocus =FocusNode();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +78,11 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          autofocus: true,
                           onChanged: (textValue) {
                             userName = textValue;
                           },
+                          onFieldSubmitted: (_)=> emailFocus.requestFocus(),
                           decoration: InputDecoration(
                               labelText: 'User Name',
                               floatingLabelBehavior: FloatingLabelBehavior.auto),
@@ -83,6 +95,8 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           },
                         ),
                         TextFormField(
+                          focusNode: emailFocus,
+                          onFieldSubmitted: (_) => passwordFocus.requestFocus(),
                           onChanged: (textValue) {
                             email = textValue;
                           },
@@ -100,10 +114,12 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           height: 10,
                         ),
                         TextFormField(
+                          focusNode: passwordFocus,
                           obscureText: isPasswordHidden ? true : false,
                           onChanged: (textValue) {
                             password = textValue;
                           },
+                          onFieldSubmitted: (_) => createAccount(),
                           decoration: InputDecoration(
                               suffixIcon:IconButton(
                                 icon: Icon(isPasswordHidden? Icons.visibility_off_outlined : Icons.visibility_outlined),

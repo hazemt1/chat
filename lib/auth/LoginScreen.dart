@@ -19,8 +19,17 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
 
   String password = '';
-  bool isPasswordHidden = false;
+  bool isPasswordHidden = true;
   late AppConfigProvider provider;
+
+  FocusNode passwordFocus =FocusNode();
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    passwordFocus.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          autofocus: true,
                           onChanged: (textValue) {
                             email = textValue;
+                          },
+                          onFieldSubmitted: (_){
+                            passwordFocus.requestFocus();
                           },
                           decoration: InputDecoration(
                               labelText: 'Email',
@@ -88,10 +101,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 10,
                         ),
                         TextFormField(
+                          focusNode: passwordFocus,
                           obscureText: isPasswordHidden ? true : false,
                           onChanged: (textValue) {
                             password = textValue;
                           },
+                          onFieldSubmitted: (_) => Login(),
                           decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 icon: Icon(isPasswordHidden

@@ -1,4 +1,5 @@
 import 'package:chat/AppConfigProvider.dart';
+import 'package:chat/addRoom/AddRoom.dart';
 import 'package:chat/chatRoom/ChatRoomScreen.dart';
 import 'package:chat/chatRoom/JoinRoom.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'auth/LoginScreen.dart';
 import 'auth/RegisterationScreen.dart';
 import 'home/HomeScreen.dart';
-import 'package:chat/addRoom/AddRoom.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -25,19 +26,20 @@ class MyApp extends StatelessWidget {
         final isLoggedInUser = provider.checkLoggedInUser();
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-
           routes: {
             RegisterationScreen.ROUTE_NAME: (context) => RegisterationScreen(),
             LoginScreen.ROUTE_NAME: (context) => LoginScreen(),
             HomeScreen.ROUTE_NAME: (context) => HomeScreen(),
             ChatRoomScreen.ROUTE_NAME: (context) => ChatRoomScreen(),
-            AddRoom.ROUTE_NAME: (context)=>AddRoom(),
-            JoinRoom.ROUTE_NAME: (context)=> JoinRoom(),
+            AddRoom.ROUTE_NAME: (context) => AddRoom(),
+            JoinRoom.ROUTE_NAME: (context) => JoinRoom()
           },
-          // initialRoute: AddRoom.ROUTE_NAME,
-          home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
+          // initialRoute: HomeScreen.ROUTE_NAME,
+         home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
+          //HomeScreen.ROUTE_NAME
         );
       },
     );
   }
 }
+
