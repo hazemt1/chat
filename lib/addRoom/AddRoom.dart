@@ -141,10 +141,10 @@ class _AddRoomState extends State<AddRoom> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text(name == "Sports"
+                                          child: Text(name == "sports"
                                               ? AppLocalizations.of(context)!
                                                   .sports
-                                              : name == "Music"
+                                              : name == "music"
                                                   ? AppLocalizations.of(
                                                           context)!
                                                       .music

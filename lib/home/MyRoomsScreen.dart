@@ -17,15 +17,15 @@ class _MyRoomsScreenState extends State<MyRoomsScreen> {
   late CollectionReference<Room> roomRef;
 
   late AppConfigProvider provider;
-
+  late Stream<QuerySnapshot<Room>> roomStream;
+  bool loading =false;
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<AppConfigProvider>(context);
-    roomRef = getUserCollectionWithConverter(provider.currentUser!.id);
-    final Stream<QuerySnapshot<Room>> roomStream = roomRef.snapshots();
+    getRoomRef();
     return Container(
       margin: EdgeInsets.only(top: 30, bottom: 20, left: 12, right: 12),
-      child: StreamBuilder(
+      child:loading? StreamBuilder(
         stream: roomStream,
         builder: (context, AsyncSnapshot<QuerySnapshot<Room>> snapshot) {
           if (snapshot.hasError)
@@ -50,7 +50,8 @@ class _MyRoomsScreenState extends State<MyRoomsScreen> {
               List<Room> roomsList1=[];
               if(provider.searchText!=''){
                 for(int i= 0;i<roomsList.length;i++){
-                  if(roomsList[i].name.contains(provider.searchText))
+                  String temp =roomsList[i].name.toLowerCase();
+                  if (temp.contains(provider.searchText.toLowerCase(),))
                     roomsList1.add(roomsList[i]);
                 }
                 roomsList= roomsList1;
@@ -94,7 +95,28 @@ class _MyRoomsScreenState extends State<MyRoomsScreen> {
             child: CircularProgressIndicator(),
           );
         },
+      ): Center(
+        child: CircularProgressIndicator(),
       ),
     );
+  }
+  getRoomRef() {
+    String id = provider.currentUser?.id ?? "";
+    if (id != "") {
+      roomRef = getUserCollectionWithConverter(provider.currentUser!.id);
+      roomStream = roomRef.snapshots();
+      loading = true;
+      return;
+    } else {
+      Future.delayed(
+        Duration(milliseconds: 100),
+            () {
+          setState(() {
+            getRoomRef();
+          });
+        },
+      );
+    }
+    return;
   }
 }

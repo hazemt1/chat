@@ -34,7 +34,8 @@ class BrowseScreen extends StatelessWidget {
             List<Room> roomsList1=[];
             if(provider.searchText!=''){
               for(int i= 0;i<roomsList.length;i++){
-                if(roomsList[i].name.contains(provider.searchText))
+                String temp =roomsList[i].name.toLowerCase();
+                if (temp.contains(provider.searchText.toLowerCase(),))
                   roomsList1.add(roomsList[i]);
               }
               roomsList= roomsList1;
