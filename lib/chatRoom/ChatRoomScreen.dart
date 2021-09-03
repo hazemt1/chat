@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'TooltipShape.dart';
 
 class ChatRoomScreen extends StatefulWidget {
@@ -59,18 +59,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   padding: const EdgeInsets.only(right: 5.0),
                   child: PopupMenuButton<String>(
                     onSelected: (selected) {
-                      if (selected == 'Leave Room') {
-                        final roomDoc = roomRef.doc(room.id);
-                        roomDoc.delete();
-                        Navigator.pop(context);
+                      if (selected == AppLocalizations.of(context)!.leaveRoom) {
+                        leaveRoom(room, provider.currentUser!, context);
                       }
                     },
                     offset: Offset(0,50),
                     shape: const TooltipShape(),
                     itemBuilder: (BuildContext context) {
-                      return {'Leave Room'}.map((String choice) {
+                      return {AppLocalizations.of(context)!.leaveRoom}.map((String choice) {
                         return PopupMenuItem<String>(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: EdgeInsets.only(left: 10,right: 10),
                           height: 20,
                           value: choice,
                           child: Text(
@@ -140,7 +138,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                 topRight: Radius.circular(10),
                               ),
                             ),
-                            hintText: 'Type a massage',
+                            hintText: AppLocalizations.of(context)!.typeMassage,
                           ),
                         ),
                       ),
@@ -151,7 +149,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         child: Container(
                           margin: EdgeInsets.all(8),
                           padding: EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 12),
+                              vertical: 12, horizontal: 12),
                           decoration: BoxDecoration(
                             color: Colors.blue,
                             borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -159,7 +157,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           child: Row(
                             children: [
                               Text(
-                                'Send',
+                                AppLocalizations.of(context)!.send,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),

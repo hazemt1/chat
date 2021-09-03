@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../AppConfigProvider.dart';
 import 'TooltipShape.dart';
 
@@ -48,18 +48,16 @@ class _JoinRoomState extends State<JoinRoom> {
                   padding: const EdgeInsets.only(right: 5.0),
                   child: PopupMenuButton<String>(
                     onSelected: (selected) {
-                      if (selected == 'Leave Room') {
-                        final roomDoc = roomRef.doc(room.id);
-                        roomDoc.delete();
-                        Navigator.pop(context);
+                      if (selected == AppLocalizations.of(context)!.leaveRoom) {
+                        leaveRoom(room, provider.currentUser!, context);
                       }
                     },
                     offset: Offset(0, 50),
                     shape: const TooltipShape(),
                     itemBuilder: (BuildContext context) {
-                      return {'Leave Room'}.map((String choice) {
+                      return {AppLocalizations.of(context)!.leaveRoom}.map((String choice) {
                         return PopupMenuItem<String>(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: EdgeInsets.only(left: 10,right: 10),
                           height: 20,
                           value: choice,
                           child: Text(
@@ -90,14 +88,14 @@ class _JoinRoomState extends State<JoinRoom> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Hello, Welcome to our chat room',
+                    AppLocalizations.of(context)!.joinRoomWel,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    'Join ${room.name}!',
+                    '${AppLocalizations.of(context)!.join} ${room.name}!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -118,7 +116,7 @@ class _JoinRoomState extends State<JoinRoom> {
                   ),
                   InkWell(
                     onTap: () {
-                      joinRoom();
+                      joinRoom(room,provider.currentUser!,context);
                     },
                     child: Center(
                       child: Wrap(
@@ -134,7 +132,7 @@ class _JoinRoomState extends State<JoinRoom> {
                               ),
                             ),
                             child: Text(
-                              'Join',
+                              AppLocalizations.of(context)!.join,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,
@@ -155,14 +153,5 @@ class _JoinRoomState extends State<JoinRoom> {
     );
   }
 
-  joinRoom() {
-    final roomDoc = roomRef.doc(room.id);
-    roomDoc.set(room).then((value) {
-      Navigator.pushNamed(
-        context,
-        ChatRoomScreen.ROUTE_NAME,
-        arguments: RoomArgs(room),
-      );
-    });
-  }
+
 }

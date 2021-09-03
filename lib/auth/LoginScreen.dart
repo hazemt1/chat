@@ -5,6 +5,7 @@ import 'package:chat/home/HomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String ROUTE_NAME = 'login';
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Center(child: Text('Login')),
+            title: Center(child: Text(AppLocalizations.of(context)!.login)),
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
@@ -63,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                     child: Text(
-                      "Welcome Back!",
+                      AppLocalizations.of(context)!.welcomeBack,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -86,13 +87,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             passwordFocus.requestFocus();
                           },
                           decoration: InputDecoration(
-                              labelText: 'Email',
+                              labelText: AppLocalizations.of(context)!.email,
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.auto),
                           // The validator receives the text that the user has entered.
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter email';
+                              return AppLocalizations.of(context)!.enterEmail;
                             }
                             return null;
                           },
@@ -117,14 +118,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   setState(() {});
                                 },
                               ),
-                              labelText: 'Password',
+                              labelText: AppLocalizations.of(context)!.password,
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.auto),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter password';
+                              return AppLocalizations.of(context)!.enterPassword;
                             } else if (value.length < 6) {
-                              return 'password should be at least 6 characters';
+                              return AppLocalizations.of(context)!.password6char;
                             }
                             return null;
                           },
@@ -136,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerLeft,
                           child: TextButton(
                             onPressed: () {},
-                            child: Text('Forgot Password ?'),
+                            child: Text(AppLocalizations.of(context)!.forgotPW),
                           ),
                         ),
                         SizedBox(
@@ -161,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Login',
+                                      AppLocalizations.of(context)!.login,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
@@ -172,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               )),
                         ),
                   TextButton(
-                    child: Text('Or Create My Account!'),
+                    child: Text(AppLocalizations.of(context)!.createNewAcc),
                     onPressed: () {
                       Navigator.pushNamed(
                           context, RegisterationScreen.ROUTE_NAME);
@@ -206,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       if (userCredential.user == null) {
         showMessageError(
-            'invalid Credentials no user exist' 'with this email and password');
+            AppLocalizations.of(context)!.invalidCred);
       } else {
         getUsersCollectionWithConverter()
             .doc(userCredential.user!.uid)
@@ -217,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     } on FirebaseAuthException catch (e) {
-      showMessageError(e.message ?? "something went wrong please try again");
+      showMessageError(e.message ?? AppLocalizations.of(context)!.somethingWentWrong);
     } catch (e) {
       print(e);
     }
@@ -237,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('ok'),
+                child: Text(AppLocalizations.of(context)!.ok),
               )
             ],
           );

@@ -4,12 +4,14 @@ import 'package:chat/model/Room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../AppConfigProvider.dart';
 
 class BrowseScreen extends StatelessWidget {
   late CollectionReference<Room> roomsCollectionReference;
   late AppConfigProvider provider;
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class BrowseScreen extends StatelessWidget {
             if(roomsList.length==0){
               return Center(
                 child: Text(
-                  'Nothing Found',
+                  AppLocalizations.of(context)!.nothingFound,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -53,6 +55,7 @@ class BrowseScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
+                childAspectRatio: 0.85
               ),
               itemBuilder: (context, index) {
                 return RoomWidget(roomsList[index], false);

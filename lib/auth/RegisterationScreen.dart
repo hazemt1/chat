@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterationScreen extends StatefulWidget {
   static const String ROUTE_NAME = 'register';
@@ -26,8 +27,8 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   bool isPasswordHidden = true;
   late AppConfigProvider provider;
 
-  FocusNode emailFocus =FocusNode();
-  FocusNode passwordFocus =FocusNode();
+  FocusNode emailFocus = FocusNode();
+  FocusNode passwordFocus = FocusNode();
 
   @override
   void dispose() {
@@ -55,11 +56,15 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pop(context);
               },
             ),
-            title: Center(child: Text('Create Account',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23),)),
+            title: Center(
+                child: Text(
+                  AppLocalizations.of(context)!.createAccount,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+            )),
             backgroundColor: Colors.transparent,
             elevation: 0,
             centerTitle: true,
@@ -82,14 +87,15 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           onChanged: (textValue) {
                             userName = textValue;
                           },
-                          onFieldSubmitted: (_)=> emailFocus.requestFocus(),
+                          onFieldSubmitted: (_) => emailFocus.requestFocus(),
                           decoration: InputDecoration(
-                              labelText: 'User Name',
-                              floatingLabelBehavior: FloatingLabelBehavior.auto),
+                              labelText: AppLocalizations.of(context)!.userName,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto),
                           // The validator receives the text that the user has entered.
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter user name';
+                              return AppLocalizations.of(context)!.enterUserName;
                             }
                             return null;
                           },
@@ -101,11 +107,12 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                             email = textValue;
                           },
                           decoration: InputDecoration(
-                              labelText: 'Email',
-                              floatingLabelBehavior: FloatingLabelBehavior.auto),
+                              labelText: AppLocalizations.of(context)!.email,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter email';
+                              return AppLocalizations.of(context)!.enterEmail;
                             }
                             return null;
                           },
@@ -121,20 +128,23 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           },
                           onFieldSubmitted: (_) => createAccount(),
                           decoration: InputDecoration(
-                              suffixIcon:IconButton(
-                                icon: Icon(isPasswordHidden? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                                onPressed: (){
+                              suffixIcon: IconButton(
+                                icon: Icon(isPasswordHidden
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined),
+                                onPressed: () {
                                   isPasswordHidden = !isPasswordHidden;
                                   setState(() {});
                                 },
                               ),
-                              labelText: 'Password',
-                              floatingLabelBehavior: FloatingLabelBehavior.auto),
+                              labelText: AppLocalizations.of(context)!.password,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter password';
+                              return AppLocalizations.of(context)!.enterPassword;
                             } else if (value.length < 6) {
-                              return 'password should be at least 6 characters';
+                              return AppLocalizations.of(context)!.password6char;
                             }
                             return null;
                           },
@@ -145,40 +155,48 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                       ],
                     ),
                   ),
-                 Container(
-                   margin: EdgeInsets.only(top:100),
-                   alignment: Alignment.bottomCenter,
-                   child: Column(
-                     children: [
-                       isLoading
-                           ?Center(child: CircularProgressIndicator())
-                           : Container(
-                             child: ElevatedButton(
-                             style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.white),),
-                               onPressed: (){
-                                 createAccount();
-                               },
-                               child: Padding(padding:  const EdgeInsets.only(left: 20,right: 20),
-                               child: Row(
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   Text('Create Account',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.grey),),
-                                   Icon(Icons.arrow_forward,color: Colors.grey,)
-                                 ],
-                               ),
-                               ),
-                            ),
-                           ),
-                     ],
-                   ),
-                 ),
-
-                 /* TextButton(child: Text('Already have Account!'),
-                    onPressed: (){
-                      Navigator.pushReplacementNamed(context, LoginScreen.ROUTE_NAME);
-                    },
-                  )
-                  */
+                  Container(
+                    margin: EdgeInsets.only(top: 100),
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      children: [
+                        isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : Container(
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                  ),
+                                  onPressed: () {
+                                    createAccount();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          AppLocalizations.of(context)!.createAccount,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward,
+                                          color: Colors.grey,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -203,7 +221,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      showMessageError('User registered Successful');
+      showMessageError(AppLocalizations.of(context)!.registerSuc);
 
       final userCollectionRef = getUsersCollectionWithConverter();
       final user = MyUser.User(
@@ -213,7 +231,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
         Navigator.of(context).pushReplacementNamed(HomeScreen.ROUTE_NAME);
       });
     } on FirebaseAuthException catch (e) {
-      showMessageError(e.message ?? "something went wrong please try again");
+      showMessageError(e.message ?? AppLocalizations.of(context)!.somethingWentWrong);
     } catch (e) {
       print(e);
     }
@@ -233,7 +251,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('ok'),
+                child: Text(AppLocalizations.of(context)!.ok),
               )
             ],
           );

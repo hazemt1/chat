@@ -10,8 +10,15 @@ class MyThemeData{
 
 class AppConfigProvider extends ChangeNotifier {
   MyUser.User? currentUser;
+  String currentLocale = 'en';
   bool _folded=true;
   String _searchText = '';
+  void changeLanguage(String lang){
+    if(currentLocale == lang)
+      return;
+    currentLocale =lang;
+    notifyListeners();
+  }
 
   bool checkLoggedInUser(){
     final firebaseUser = FirebaseAuth.instance.currentUser;

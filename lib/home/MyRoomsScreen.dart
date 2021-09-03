@@ -5,9 +5,17 @@ import 'package:chat/model/Room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class MyRoomsScreen extends StatelessWidget {
+
+class MyRoomsScreen extends StatefulWidget {
+  @override
+  _MyRoomsScreenState createState() => _MyRoomsScreenState();
+}
+
+class _MyRoomsScreenState extends State<MyRoomsScreen> {
   late CollectionReference<Room> roomRef;
+
   late AppConfigProvider provider;
 
   @override
@@ -31,7 +39,7 @@ class MyRoomsScreen extends StatelessWidget {
             if(roomsList.length==0)
               return Center(
                 child: Text(
-                  'No rooms joined yet',
+                  AppLocalizations.of(context)!.noRooms,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -50,7 +58,7 @@ class MyRoomsScreen extends StatelessWidget {
               if(roomsList.length==0){
                 return Center(
                   child: Text(
-                    'Nothing Found',
+                    AppLocalizations.of(context)!.nothingFound,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -63,6 +71,7 @@ class MyRoomsScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
+                  childAspectRatio: 0.85,
                 ),
                 itemBuilder: (context, index) {
                     return RoomWidget(roomsList[index], true);
@@ -73,7 +82,7 @@ class MyRoomsScreen extends StatelessWidget {
           } else if (snapshot.hasData && snapshot.data == null) {
             return Center(
               child: Text(
-                'No rooms joined yet',
+                AppLocalizations.of(context)!.noRooms,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
