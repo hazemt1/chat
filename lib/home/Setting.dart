@@ -1,6 +1,7 @@
 import 'package:chat/AppConfigProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
@@ -13,13 +14,13 @@ class _SettingState extends State<Setting> {
   static String language ='English';
   @override
   Widget build(BuildContext context) {
-    // final AppConfigProvider provider = Provider.of<AppConfigProvider>(context);
+    final AppConfigProvider provider = Provider.of<AppConfigProvider>(context);
     return Column(
       children: [
         Padding(
           padding: EdgeInsets.all(25.0),
           child: Text(
-              'lang',
+              AppLocalizations.of(context)!.language,
               // AppLocalizations.of(context)!.language,
               style: TextStyle(
                   fontSize: 22,
@@ -52,11 +53,11 @@ class _SettingState extends State<Setting> {
                   onChanged: (String? newValue) {
                     setState(() {
                       language = newValue!;
-                      // if (newValue == 'English')
-                      //   provider.changeLanguage('en');
-                      // else if (newValue == 'Arabic') {
-                      //   provider.changeLanguage('ar');
-                      // }
+                      if (newValue == 'English')
+                        provider.changeLanguage('en');
+                      else if (newValue == 'Arabic') {
+                        provider.changeLanguage('ar');
+                      }
                     });
                   },
                   items: <String>['English', 'Arabic']

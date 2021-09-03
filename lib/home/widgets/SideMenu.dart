@@ -4,6 +4,7 @@ import 'package:chat/home/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -15,9 +16,9 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<SideMenuItem> sideMenuList = [
-      SideMenuItem(SideMenuItem.HOME, SideMenuItem.HOME, Icons.home,HomeScreen.ROUTE_NAME),
-      SideMenuItem(SideMenuItem.SETTINGS, SideMenuItem.SETTINGS, Icons.settings, 'routeName'),
-      SideMenuItem(SideMenuItem.SIGN_OUT, SideMenuItem.SIGN_OUT, Icons.logout, LoginScreen.ROUTE_NAME)
+      SideMenuItem(SideMenuItem.HOME, AppLocalizations.of(context)!.home, Icons.home,HomeScreen.ROUTE_NAME),
+      SideMenuItem(SideMenuItem.SETTINGS, AppLocalizations.of(context)!.settings, Icons.settings, 'routeName'),
+      SideMenuItem(SideMenuItem.SIGN_OUT, AppLocalizations.of(context)!.logOut, Icons.logout, LoginScreen.ROUTE_NAME)
     ];
     return Drawer(
       child: Column(
@@ -27,7 +28,7 @@ class SideMenu extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 64),
             child: Center(
               child: Text(
-                'Chat App',
+                AppLocalizations.of(context)!.title,
                 style: GoogleFonts.poppins(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

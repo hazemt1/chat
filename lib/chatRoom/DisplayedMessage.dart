@@ -18,6 +18,7 @@ class DisplayedMessage extends StatelessWidget {
 
   Widget sentMessage() {
     return Row(
+      textDirection: TextDirection.ltr,
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -66,7 +67,8 @@ class DisplayedMessage extends StatelessWidget {
 
   Widget receivedMessage() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      textDirection: TextDirection.ltr,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
@@ -79,10 +81,12 @@ class DisplayedMessage extends StatelessWidget {
           ),
         ),
         Row(
+          textDirection: TextDirection.ltr,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               child: Wrap(
+                textDirection: TextDirection.ltr,
                 children: [
                   Container(
                     padding: EdgeInsets.all(12),

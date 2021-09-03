@@ -1,5 +1,4 @@
 import 'package:chat/AppConfigProvider.dart';
-import 'package:chat/chatRoom/ChatRoomScreen.dart';
 import 'package:chat/database/DataBaseHelper.dart';
 import 'package:chat/model/Room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddRoom extends StatefulWidget {
   static const String ROUTE_NAME = 'addRoom';
@@ -22,8 +22,7 @@ class _AddRoomState extends State<AddRoom> {
 
   String description = '';
 
-  List<String> categories = ['movies', 'sports', 'music'];
-
+  late List<String> categories;
   String selectedCategory = 'sports';
 
   bool isLoading = false;
@@ -34,6 +33,12 @@ class _AddRoomState extends State<AddRoom> {
 
   @override
   Widget build(BuildContext context) {
+    categories = [
+      "movies",
+      "sports",
+      "music",
+    ];
+
     provider = Provider.of<AppConfigProvider>(context);
     roomRef = getUserCollectionWithConverter(provider.currentUser!.id);
     return Stack(children: [
@@ -51,7 +56,7 @@ class _AddRoomState extends State<AddRoom> {
       Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text('Route Chat App'),
+          title: Text(AppLocalizations.of(context)!.title),
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -74,7 +79,7 @@ class _AddRoomState extends State<AddRoom> {
               //    crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Create New Room',
+                  AppLocalizations.of(context)!.createNewRoom,
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 24,
@@ -93,7 +98,7 @@ class _AddRoomState extends State<AddRoom> {
                         keyboardType: TextInputType.name,
 
                         decoration: InputDecoration(
-                            labelText: 'Enter Room Name',
+                            labelText: AppLocalizations.of(context)!.roomName,
                             labelStyle: GoogleFonts.poppins(
                               fontSize: 16,
                             ),
@@ -101,7 +106,7 @@ class _AddRoomState extends State<AddRoom> {
                         // The validator receives the text that the user has entered.
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Room Name';
+                            return AppLocalizations.of(context)!.enterRoomName;
                           }
                           return null;
                         },
@@ -136,7 +141,16 @@ class _AddRoomState extends State<AddRoom> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text(name),
+                                          child: Text(name == "Sports"
+                                              ? AppLocalizations.of(context)!
+                                                  .sports
+                                              : name == "Music"
+                                                  ? AppLocalizations.of(
+                                                          context)!
+                                                      .music
+                                                  : AppLocalizations.of(
+                                                          context)!
+                                                      .movies),
                                         )
                                       ],
                                     ),
@@ -161,7 +175,7 @@ class _AddRoomState extends State<AddRoom> {
                           description = text;
                         },
                         decoration: InputDecoration(
-                          labelText: 'Enter  Room Description',
+                          labelText: AppLocalizations.of(context)!.roomDis,
                           labelStyle: GoogleFonts.poppins(
                             fontSize: 16,
                           ),
@@ -170,7 +184,7 @@ class _AddRoomState extends State<AddRoom> {
                         // The validator receives the text that the user has entered.
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter room Description';
+                            return AppLocalizations.of(context)!.enterRoomDisc;
                           }
                           return null;
                         },
@@ -201,7 +215,7 @@ class _AddRoomState extends State<AddRoom> {
                             ? Center(
                                 child: CircularProgressIndicator(),
                               )
-                            : Text('Create'))),
+                            : Text(AppLocalizations.of(context)!.create))),
               ],
             ),
           ),
@@ -225,20 +239,12 @@ class _AddRoomState extends State<AddRoom> {
         isLoading = false;
       });
       Fluttertoast.showToast(
-          msg: 'Room Added Successfully', toastLength: Toast.LENGTH_LONG);
+          msg: AppLocalizations.of(context)!.roomAddSuc,
+          toastLength: Toast.LENGTH_LONG);
       Navigator.pop(context);
-      joinRoom(room);
+      joinRoom(room,provider.currentUser!,context);
     });
   }
 
-  joinRoom(Room room) {
-    final roomDoc = roomRef.doc(room.id);
-    roomDoc.set(room).then((value) {
-      Navigator.pushNamed(
-        context,
-        ChatRoomScreen.ROUTE_NAME,
-        arguments: RoomArgs(room),
-      );
-    });
-  }
+
 }

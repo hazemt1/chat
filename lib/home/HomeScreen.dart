@@ -9,6 +9,7 @@ import 'package:chat/home/widgets/SideMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int index = 0;
 
-  String title = 'Chat App';
+  late String title ;
 
   List<Widget> homeView = [
     TabBarView(
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<AppConfigProvider>(context);
+    title = AppLocalizations.of(context)!.title;
     return Stack(
       children: [
         Container(
@@ -100,10 +102,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         tabs: [
                           Tab(
-                            text: 'My Rooms',
+                            text: AppLocalizations.of(context)!.myRooms,
                           ),
                           Tab(
-                            text: 'Browse',
+                            text: AppLocalizations.of(context)!.browse,
                           )
                         ],
                       )
@@ -128,13 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
     if (sideMenuItem.id == SideMenuItem.HOME) {
       setState(() {
         index = 0;
-        title = 'Chat App';
+        title = AppLocalizations.of(context)!.title;
       });
     } else if (sideMenuItem.id == SideMenuItem.SETTINGS) {
       // to handle
       setState(() {
         index = 1;
-        title = 'Settings';
+        title = AppLocalizations.of(context)!.settings;
       });
     }
     Navigator.pop(context);

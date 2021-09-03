@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 import 'auth/LoginScreen.dart';
 import 'auth/RegisterationScreen.dart';
 import 'home/HomeScreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -22,10 +24,17 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => AppConfigProvider(),
       builder: (context, widget) {
-        final provider  = Provider.of<AppConfigProvider>(context);
+        final provider = Provider.of<AppConfigProvider>(context);
         final isLoggedInUser = provider.checkLoggedInUser();
         return MaterialApp(
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            AppLocalizations.delegate, // Add this line
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
           routes: {
             RegisterationScreen.ROUTE_NAME: (context) => RegisterationScreen(),
             LoginScreen.ROUTE_NAME: (context) => LoginScreen(),
@@ -34,12 +43,11 @@ class MyApp extends StatelessWidget {
             AddRoom.ROUTE_NAME: (context) => AddRoom(),
             JoinRoom.ROUTE_NAME: (context) => JoinRoom()
           },
-          // initialRoute: HomeScreen.ROUTE_NAME,
-         home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
+          locale: Locale.fromSubtags(languageCode: provider.currentLocale),
+          home: (isLoggedInUser) ? HomeScreen() : LoginScreen(),
           //HomeScreen.ROUTE_NAME
         );
       },
     );
   }
 }
-
