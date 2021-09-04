@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:chat/home/HomeScreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../AppConfigProvider.dart';
 import 'TooltipShape.dart';
@@ -116,6 +117,7 @@ class _JoinRoomState extends State<JoinRoom> {
                   ),
                   InkWell(
                     onTap: () {
+                      Navigator.pushNamed(context, HomeScreen.ROUTE_NAME);
                       joinRoom(room,provider.currentUser!,context);
                     },
                     child: Center(
